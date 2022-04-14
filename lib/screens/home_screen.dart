@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/widgets/recent_orders.dart';
+
+import '../data/data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,6 +11,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  _buildRestorents() {
+    List<widget> restornetsList = [];
+    return Column(children: restornetsList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[
           TextButton(
             onPressed: () {},
-            child: const Text(
-              "Cart (5)",
-              style: TextStyle(
+            child: Text(
+              'Cart (${currentUser.cart.length})',
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
               ),
@@ -54,8 +61,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {},
                 )),
           ),
-        )
+        ),
+        const RecentOrder(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                "Nearby Restorents",
+                style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2),
+              ),
+            )
+          ],
+        ),
+        _buildRestorents(),
       ]),
     );
   }
 }
+
+class widget {}
