@@ -12,78 +12,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  _buildRestorents(BuildContext context, Restaurant restaurant) {
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      width: 320,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white,
-        border: Border.all(
-          width: 1.0,
-          color: Colors.grey.shade200,
+  _buildRestorents() {
+    List<Widget> restorentList = [];
+    restaurants.forEach((Restaurant restorent) {
+      restorentList.add(Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+          vertical: 10.0,
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    15.0,
-                  ),
-                  child: Image(
-                    height: 150.0,
-                    width: 150.0,
-                    image: AssetImage(restaurant.imageUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          restaurant.name,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          restaurant.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          restaurant.address,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(width: 1.2, color: Colors.grey.shade200),
+        ),
+        child: Row(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Image(
+                height: 150.0,
+                width: 150.0,
+                image: AssetImage(restorent.imageUrl),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+            Container(
+                margin: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(restorent.name),
+                  ],
+                ))
+          ],
+        ),
+      ));
+    });
+    return Column(children: restorentList);
   }
 
   @override
@@ -136,8 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
           const RecentOrder(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
-              Padding(
+            children: <Widget>[
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   "Nearby Restorents",
@@ -146,21 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.2),
                 ),
-              )
+              ),
+              _buildRestorents()
             ],
-          ),
-          Container(
-            height: 170,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 10.0),
-              scrollDirection: Axis.vertical,
-              itemCount: restaurants.length,
-              itemBuilder: (BuildContext context, int index) {
-                Restaurant restorent = restaurants[index];
-                return _buildRestorents(context, restorent);
-              },
-            ),
           ),
         ],
       ),
