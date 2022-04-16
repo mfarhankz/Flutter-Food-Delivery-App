@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/screens/cart_screen.dart';
 import 'package:food_delivery_app/screens/restorent_screen.dart';
 import 'package:food_delivery_app/widgets/recent_orders.dart';
 
@@ -106,7 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Food Delivery'),
         actions: <Widget>[
           TextButton(
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const CartScreen(),
+              ),
+            ),
             child: Text(
               'Cart (${currentUser.cart.length})',
               style: const TextStyle(
