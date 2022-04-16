@@ -3,6 +3,7 @@ import 'package:food_delivery_app/widgets/recent_orders.dart';
 
 import '../data/data.dart';
 import '../models/restaurant.dart';
+import '../widgets/rating_stars.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,13 +37,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            Container(
-                margin: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(restorent.name),
-                  ],
-                ))
+            Expanded(
+              child: Container(
+                  margin: const EdgeInsets.all(12.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        restorent.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      RatingStar(restorent.rating),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        restorent.address,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4.0),
+                      const Text(
+                        "0.2 miles away",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  )),
+            )
           ],
         ),
       ));
