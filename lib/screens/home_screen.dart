@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/screens/restorent_screen.dart';
 import 'package:food_delivery_app/widgets/recent_orders.dart';
 
 import '../data/data.dart';
@@ -16,67 +17,79 @@ class _HomeScreenState extends State<HomeScreen> {
   _buildRestorents() {
     List<Widget> restorentList = [];
     restaurants.forEach((Restaurant restorent) {
-      restorentList.add(Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 10.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.0),
-          border: Border.all(width: 1.2, color: Colors.grey.shade200),
-        ),
-        child: Row(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: Image(
-                height: 150.0,
-                width: 150.0,
-                image: AssetImage(restorent.imageUrl),
-                fit: BoxFit.cover,
-              ),
+      restorentList.add(
+        GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => RestorentScreen(restorent: restorent),
+              )),
+          child: Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 10.0,
             ),
-            Expanded(
-              child: Container(
-                  margin: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        restorent.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      RatingStar(restorent.rating),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        restorent.address,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4.0),
-                      const Text(
-                        "0.2 miles away",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  )),
-            )
-          ],
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.0),
+              border: Border.all(width: 1.2, color: Colors.grey.shade200),
+            ),
+            child: Row(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Hero(
+                    tag: restorent.imageUrl,
+                    child: Image(
+                      height: 150.0,
+                      width: 150.0,
+                      image: AssetImage(restorent.imageUrl),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      margin: const EdgeInsets.all(12.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            restorent.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          RatingStar(restorent.rating),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            restorent.address,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4.0),
+                          const Text(
+                            "0.2 miles away",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      )),
+                )
+              ],
+            ),
+          ),
         ),
-      ));
+      );
     });
     return Column(children: restorentList);
   }
