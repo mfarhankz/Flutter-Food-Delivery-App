@@ -13,7 +13,7 @@ class _CartScreenState extends State<CartScreen> {
   _buildCartItem(Order order) {
     return Container(
       margin: const EdgeInsets.all(20.0),
-      height: 170,
+      height: 150,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -121,12 +121,65 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double totalPrice = 0;
+    currentUser.cart.forEach(
+      (Order order) => totalPrice += order.quantity * order.food.price,
+    );
     return Scaffold(
       appBar: AppBar(title: Text("Cart (${currentUser.cart.length})")),
       body: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
-          Order order = currentUser.cart[index];
-          return _buildCartItem(order);
+          if (index < currentUser.cart.length) {
+            Order order = currentUser.cart[index];
+            return _buildCartItem(order);
+          }
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const <Widget>[
+                    Text(
+                      "Estimated Dlivery Time",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      "25 min",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      "Totle Cost:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      '\$${totalPrice.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.green),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 80),
+              ],
+            ),
+          );
         },
         separatorBuilder: (BuildContext context, int index) {
           return const Divider(
@@ -134,7 +187,25 @@ class _CartScreenState extends State<CartScreen> {
             color: Colors.grey,
           );
         },
-        itemCount: currentUser.cart.length,
+        itemCount: currentUser.cart.length + 1,
+      ),
+      bottomSheet: Container(
+        height: 70,
+        width: MediaQuery.of(context).size.width,
+        color: Theme.of(context).primaryColor,
+        child: Center(
+          child: FlatButton(
+            child: const Text(
+              "Checkout",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () {},
+          ),
+        ),
       ),
     );
   }
